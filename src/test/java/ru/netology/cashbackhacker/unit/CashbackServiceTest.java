@@ -14,10 +14,9 @@ public class CashbackServiceTest {
 
     private CashbackService service;
     private static Random random;
-    final static int AMOUNT_SPENT_FOR_CASHBACK = 1000;
 
     @BeforeAll
-    public static void initialize(){
+    public static void initialize() {
         random = new Random();
     }
 
@@ -28,7 +27,7 @@ public class CashbackServiceTest {
 
     @Test
     public void WhenSumMultipleOfThousand_ThenNoRemain() {
-        int sum = AMOUNT_SPENT_FOR_CASHBACK * (random.nextInt(100) + 1);
+        int sum = 1000;
         int remain = service.remain(sum);
         int expectedRemain = 0;
         assertEquals(expectedRemain, remain);
@@ -36,14 +35,15 @@ public class CashbackServiceTest {
 
     @Test
     public void WhenSumNotMultipleOfThousand_ThenNeedRemain() {
-        int sum = AMOUNT_SPENT_FOR_CASHBACK + (random.nextInt(998) + 1);
+        int sum = 700;
         int remain = service.remain(sum);
-        int expectedRemain =  AMOUNT_SPENT_FOR_CASHBACK - sum % AMOUNT_SPENT_FOR_CASHBACK;
+        int expectedRemain = 300;
         assertEquals(expectedRemain, remain);
     }
 
     @Test
     public void WhenSumIsNegative_ThenThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> service.remain(-1000));
+        int sum = -1000;
+        assertThrows(IllegalArgumentException.class, () -> service.remain(sum));
     }
 }
