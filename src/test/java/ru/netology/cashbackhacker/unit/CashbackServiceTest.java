@@ -3,6 +3,8 @@ package ru.netology.cashbackhacker.unit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import ru.netology.cashbackhacker.CashbackService;
 
 import java.util.Random;
@@ -25,19 +27,18 @@ public class CashbackServiceTest {
         service = new CashbackService();
     }
 
-    @Test
-    public void WhenSumMultipleOfThousand_ThenNoRemain() {
-        int sum = 1000;
+    @ParameterizedTest
+    @CsvFileSource(resources = "/multipleOfThousandSums.csv", numLinesToSkip = 1)
+    public void WhenSumMultipleOfThousand_ThenNoRemain(int sum) {
         int remain = service.remain(sum);
         int expectedRemain = 0;
         assertEquals(expectedRemain, remain);
     }
 
-    @Test
-    public void WhenSumNotMultipleOfThousand_ThenNeedRemain() {
-        int sum = 700;
+    @ParameterizedTest
+    @CsvFileSource(resources = "/notMultipleOfThousandSums.csv", numLinesToSkip = 1)
+    public void WhenSumNotMultipleOfThousand_ThenNeedRemain(int sum, int expectedRemain) {
         int remain = service.remain(sum);
-        int expectedRemain = 300;
         assertEquals(expectedRemain, remain);
     }
 
